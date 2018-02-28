@@ -5,6 +5,7 @@ import json
 
 def load_json_data_from_url(base_url, url_params):
     url = '%s?%s' % (base_url, urllib.parse.urlencode(url_params))
+    print(url)
     response = urllib.request.urlopen(url).read().decode('utf-8')
     return json.loads(response)
 
