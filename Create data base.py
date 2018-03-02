@@ -1,6 +1,7 @@
 import urllib.request
 import urllib.parse
 import json
+import configparser
 
 
 def load_json_data_from_url(base_url, url_params):
@@ -23,7 +24,7 @@ def make_tmdb_api_request(method, api_key, extra_params=None):
 def get_film_data(film_id):
     film = dict()
     f_id = '/movie/%s' % film_id
-    film = make_tmdb_api_request(method=f_id, api_key='f83997ed5774e7f3a8dbd1bcbbc0b384',extra_params={'append_to_response' : 'lists,keywords,credits'})
+    film = make_tmdb_api_request(method=f_id, api_key=str(config['API']['API_KEY']),extra_params={'append_to_response' : 'lists,keywords,credits'})
     return film
 
 
@@ -43,6 +44,8 @@ def create_film_db(db_size):
     return db
 
 
+config = configparser.ConfigParser()
+config.read('config.ini')
 data_base = create_film_db(1000)
 file = open('film_db.json', 'w')
 file.write(json.dumps(data_base))

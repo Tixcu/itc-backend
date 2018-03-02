@@ -1,11 +1,12 @@
 import urllib.request
 import urllib.parse
 import json
+import os
+import configparser
 
 
 def load_json_data_from_url(base_url, url_params):
     url = '%s?%s' % (base_url, urllib.parse.urlencode(url_params))
-    print(url)
     response = urllib.request.urlopen(url).read().decode('utf-8')
     return json.loads(response)
 
@@ -21,4 +22,6 @@ def make_tmdb_api_request(method, api_key, extra_params=None):
     return load_json_data_from_url(url, params)
 
 
-print(make_tmdb_api_request(method='/movie/215', api_key='f83997ed5774e7f3a8dbd1bcbbc0b384')['budget'])
+config = configparser.ConfigParser()
+config.read('config.ini')
+print(make_tmdb_api_request(method='/movie/215', api_key=str(config['API']['API_KEY']))['budget'])
