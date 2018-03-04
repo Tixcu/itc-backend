@@ -72,7 +72,7 @@ if __name__ == '__main__':
     rec_list = check_credits(rec_list, sfilm)
     rec_list = rating_dif(rec_list, sfilm)
     rec_list = check_keywords(rec_list, sfilm)
-    rec_list = sorted(rec_list, key = lambda x: x['rec_rate'], reverse = True)
+    rec_list = sorted(rec_list, key = lambda x: x['rec_rate'], reverse = True) #Sorting list by recomendation rating
     film_count = 0
     while film_count < 3 and film_count < len(rec_list):
         print(rec_list[film_count]['title'])

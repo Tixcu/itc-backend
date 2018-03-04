@@ -1,12 +1,13 @@
-import urllib.request
-import urllib.parse
 import json
 import configparser
+import os
+
+import urllib.request
+import urllib.parse
 
 
 def load_json_data_from_url(base_url, url_params):
     url = '%s?%s' % (base_url, urllib.parse.urlencode(url_params))
-    print(url)
     response = urllib.request.urlopen(url).read().decode('utf-8')
     return json.loads(response)
 
@@ -29,7 +30,6 @@ def get_film_data(film_id):
 
 
 def create_film_db(db_size):
-    print('say smth man')
     db = []
     film_num = 1
     while(film_num <= db_size):
@@ -37,10 +37,9 @@ def create_film_db(db_size):
             print(film_num)
             db.append(get_film_data(i))
             film_num+=1
-        except:
+        except urllib.error.HTTPError:
             db_size += 1
             film_num+=1
-    print('fin')
     return db
 
 if __name__ == '__main__':
