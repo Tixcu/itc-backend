@@ -3,6 +3,7 @@ import urllib.parse
 import json
 import os
 import configparser
+import sys
 
 
 def load_json_data_from_url(base_url, url_params):
@@ -21,6 +22,6 @@ def make_tmdb_api_request(method, api_key, extra_params=None):
     params.update(extra_params)
     return load_json_data_from_url(url, params)
 
-
-api = os.environ.get('my_api')
-print(make_tmdb_api_request(method='/movie/215', api_key=api)['budget'])
+if __name__ == '__main__':
+    api = os.environ.get('my_api')
+    print(make_tmdb_api_request(method='/movie/215', api_key=api)['budget'])
