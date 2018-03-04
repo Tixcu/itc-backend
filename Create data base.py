@@ -24,7 +24,7 @@ def make_tmdb_api_request(method, api_key, extra_params=None):
 def get_film_data(film_id):
     film = dict()
     f_id = '/movie/%s' % film_id
-    film = make_tmdb_api_request(method=f_id, api_key=str(config['API']['API_KEY']),extra_params={'append_to_response' : 'lists,keywords,credits'})
+    film = make_tmdb_api_request(method=f_id, api_key=api,extra_params={'append_to_response' : 'lists,keywords,credits'})
     return film
 
 
@@ -44,8 +44,7 @@ def create_film_db(db_size):
     return db
 
 
-config = configparser.ConfigParser()
-config.read('config.ini')
+api = os.environ.get('my_api')
 data_base = create_film_db(1000)
 file = open('film_db.json', 'w')
 file.write(json.dumps(data_base))

@@ -22,6 +22,5 @@ def make_tmdb_api_request(method, api_key, extra_params=None):
     return load_json_data_from_url(url, params)
 
 
-config = configparser.ConfigParser()
-config.read('config.ini')
-print(make_tmdb_api_request(method='/movie/215', api_key=str(config['API']['API_KEY']))['budget'])
+api = os.environ.get('my_api')
+print(make_tmdb_api_request(method='/movie/215', api_key=api)['budget'])
