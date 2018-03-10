@@ -58,7 +58,7 @@ def slava(bot, update):
 def main():
     """Start the bot."""
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater('549665186:AAH9gt7nI_fBAP6dxWRvO-KSh9Io7D__bFQ')
+    updater = Updater(os.environ.get('t_api'))
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
