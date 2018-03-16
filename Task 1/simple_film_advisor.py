@@ -63,18 +63,18 @@ def check_keywords(rec_list, sfilm): #comparing keywords and adding recomendatio
     return rec_list
        
 
-if __name__ == '__main__':                           
-    f = open('film_db.json', 'r')
-    db = json.loads(f.read())
-    sname = input().lower()
-    sfilm = find_film(db,sname)
-    rec_list = make_same_genre_list(db, sfilm)
-    rec_list = check_credits(rec_list, sfilm)
-    rec_list = rating_dif(rec_list, sfilm)
-    rec_list = check_keywords(rec_list, sfilm)
-    rec_list = sorted(rec_list, key = lambda x: x['rec_rate'], reverse = True) #Sorting list by recomendation rating
-    film_count = 0
-    while film_count < 3 and film_count < len(rec_list):
-        print(rec_list[film_count]['title'])
-        film_count += 1
+if __name__ == '__main__':       
+	with open('film_db.json', 'r') as f:
+		db = json.loads(f.read())
+		sname = input().lower()
+		sfilm = find_film(db,sname)
+		rec_list = make_same_genre_list(db, sfilm)
+		rec_list = check_credits(rec_list, sfilm)
+		rec_list = rating_dif(rec_list, sfilm)
+		rec_list = check_keywords(rec_list, sfilm)
+		rec_list = sorted(rec_list, key = lambda x: x['rec_rate'], reverse = True) #Sorting list by recomendation rating
+		film_count = 0
+		while film_count < 3 and film_count < len(rec_list):
+			print(rec_list[film_count]['title'])
+			film_count += 1
 

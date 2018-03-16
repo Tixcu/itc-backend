@@ -45,6 +45,5 @@ def create_film_db(db_size):
 if __name__ == '__main__':
     api = os.environ.get('my_api')
     data_base = create_film_db(1000)
-    file = open('film_db.json', 'w')
-    file.write(json.dumps(data_base))
-    file.close()
+	with open('film_db.json', 'w') as file:
+		file.write(json.dumps(data_base))
