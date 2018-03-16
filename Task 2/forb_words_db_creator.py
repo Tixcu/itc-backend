@@ -5,13 +5,12 @@ import json
 
 def db_create(db):
     db = set()
-    print('Input untill end of input. Use ctrl+d.')
+	# I fyou want to stp input use ctrl+d
     with open("forbidden_words.json", "w") as myfile:
         while True:
             try:
-                inp = input("> ")
                 db.add(inp)
-            except EOFError:
+            except EOFError:#Decided to leave it here cause don't want to create stopping word
                 print("EOF")
                 break
         myfile.write(json.dumps(list(db)))
@@ -25,9 +24,10 @@ def db_read():
 
 
 def main():
-    choice = int(input('1.update. 2.create:\n'))
+    #Print 1 if you to update existing db.
     if choice == 1:
         db_read()
+	#Print 2 if you want to create new db or rewrite existing.
     elif choice == 2:
         db = set()
         db_create(db)
