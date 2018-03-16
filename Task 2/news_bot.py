@@ -42,12 +42,12 @@ def pynews(bot, update):
     with open("vk_posts.json", "r") as file:
         str = file.read()
         db = json.loads(str)
-        post_number = int(random.uniform(0,len(db)))
-        # Printing first two rows
-        update.message.reply_text(db[post_number]['text'].split('\n',2)[0]+'..')
+    post_number = int(random.uniform(0,len(db)))
+    # Printing first two rows
+    update.message.reply_text(db[post_number]['text'].split('\n',2)[0]+'..')
 
-        # Creating url from owner id and id of post in vk
-        update.message.reply_text('https://vk.com/feed?w=wall%s_%s' % (db[post_number]['owner_id'],db[post_number]['id']))
+    # Creating url from owner id and id of post in vk
+    update.message.reply_text('https://vk.com/feed?w=wall%s_%s' % (db[post_number]['owner_id'],db[post_number]['id']))
 
     
 def slava(bot, update):
