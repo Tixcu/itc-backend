@@ -5,7 +5,7 @@ import json
 import vk_api
 
 
-def auth():
+def auth(): #Dirty because vk always generating different keys. Dunno if i can fix this.
     login = '8' + os.environ.get('VK_LOG')
     password = os.environ.get('VK_PASS')
     vk_session = vk_api.VkApi(login, password)
@@ -22,7 +22,7 @@ def content_control(text):
         return True
     
 
-def create_post_db(vk):
+def create_post_db(vk): 
     raws = vk.newsfeed.search(q = 'python', extended = 1, count = 100)
     db = list()
     if os.stat('vk_posts.json').st_size != 0:
