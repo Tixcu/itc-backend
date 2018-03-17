@@ -1,39 +1,44 @@
 import json
 
-
-def find_film(film_db, film_name):# film search via title
-    for film_num in range(len(film_db)):
-        if film_db[film_num]['title'].lower() == film_name:
-            del db[film_num]
-            return film_db[film_num]
-    print('Film not found, using first film in the base')
-    return db[0]
+from utility_functions import title_search
 
 
-def make_same_genre_list(film_db, film):# makes lst of films with same genre
+def make_same_genre_list(film):# makes list of films with same genre
+    with open('film_db.json', 'r') as file:
+        film_db = json.loads(file.read())
     rec_list = list()
     for film_num in range(len(film_db)):
-        if film_db[film_num]['genres'] == film['genres'] and film_db[film_num]['adult'] == film['adult']:
+        if film_db[film_num]['genres'] == film['genres'] and film_db[film_num]['adult'] == film['adult'] and fiml_db[film_num] != film:
             film_db[film_num]['rec_rate'] = 0.0
             rec_list.append(film_db[film_num])
     return rec_list
 
 
 def check_credits(rec_list, sfilm): # comparing credits and adding rating
-    crew_list = set()
+    rec_list = compare_cast(rec_list, sfilm)
+    rec_list = compare_crew(rec_list, sfilm)
+    return rec_list
+
+
+def compare_cast(rec_list, sfilm):
     cast_list = set()
+    for man in film['credits']['cast']:
+            for sman in sfilm['credits']['cast']:
+                if sman['name'] == man['name']:
+                    cast_list.add(sman['name'])
+        film['rec_rate'] += len(cast_list)/2 #cast has less value
+        cast_list = set()
+    return rec_list
+
+
+def compare_crew(rec_list, sfilm):
+    crew_list = set()
     for film in rec_list:
         for man in film['credits']['crew']:
             for sman in sfilm['credits']['crew']:
                 if man['name'] == sman['name']:
                     crew_list.add(sman['name'])
         film['rec_rate'] += len(crew_list)
-        for man in film['credits']['cast']:
-            for sman in sfilm['credits']['cast']:
-                if sman['name'] == man['name']:
-                    cast_list.add(sman['name'])
-        film['rec_rate'] += len(cast_list)/2
-        cast_list = set()
         crew_list = set()
     return rec_list
 
@@ -63,18 +68,26 @@ def check_keywords(rec_list, sfilm): #comparing keywords and adding recomendatio
     return rec_list
        
 
-if __name__ == '__main__':       
-	with open('film_db.json', 'r') as f:
-		db = json.loads(f.read())
-		sname = input().lower()
-		sfilm = find_film(db,sname)
-		rec_list = make_same_genre_list(db, sfilm)
-		rec_list = check_credits(rec_list, sfilm)
-		rec_list = rating_dif(rec_list, sfilm)
-		rec_list = check_keywords(rec_list, sfilm)
-		rec_list = sorted(rec_list, key = lambda x: x['rec_rate'], reverse = True) #Sorting list by recomendation rating
-		film_count = 0
-		while film_count < 3 and film_count < len(rec_list):
-			print(rec_list[film_count]['title'])
-			film_count += 1
+def create_recomendation_list(sfilm) 
+    rec_list = make_same_genre_list(sfilm)
+    rec_list = check_credits(rec_list, sfilm)
+    rec_list = rating_dif(rec_list, sfilm)
+    rec_list = check_keywords(rec_list, sfilm)
+    rec_list = sorted(rec_list, key = lambda x: x['rec_rate'], reverse = True) #Sorting list by recomendation rating
+    return rec_list
 
+
+def main():
+    sfilm = title_search(input().lower())
+    rec_list = create_recomendation_list(sfilm)
+    film_count = 3
+    if len(rec_list) < film_count:
+        for film in rec_list:
+            print(film['title'])
+    else:
+        for film_num in range(3):
+            print(rec_list[film_num]['title'])
+
+
+if __name__ == '__main__':       
+	main()
